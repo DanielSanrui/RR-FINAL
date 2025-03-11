@@ -18,7 +18,7 @@ const Favourites = () => {
 
     return (
         <div className="p-6">
-            <h1 className="text-2xl font-bold mb-4">Favorites</h1>
+            <h1 className="text-4xl font-bold mb-4 text-center">Favorites</h1>
             {favorites.length === 0 ? (
                 <p>You do not have favourites yet</p>
             ) : (
@@ -35,15 +35,14 @@ const Favourites = () => {
                             <audio src={music.preview} controls className="w-full mt-3" />
                             <button
                                 onClick={() => removeFromFavorites(index)}
-                                className="mt-3 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200"
-                            >
+                                className="mt-3 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200">
                                 Remove from Favorites
                             </button>
                         </div>
                     ))}
                 </div>
             )}
-            <Link to="/" className="mt-6 inline-block bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200">
+            <Link to="/" className="mt-6 inline-block bg-green-400 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition duration-200">
                 Back to Search
             </Link>
         </div>
