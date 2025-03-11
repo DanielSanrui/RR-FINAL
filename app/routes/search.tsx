@@ -24,6 +24,7 @@ const Search = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState<string>("");
   const [songs, setSongs] = useState<Track[]>([]);
+  const [favorites, setFavorites] = useState<Track[]>(JSON.parse(localStorage.getItem("favorites") || "[]"));
   const [alert, setAlert] = useState<{ message: string; type: "success" | "warning" } | null>(null);
 
   const handleSearchSubmit = async () => {
@@ -41,16 +42,19 @@ const Search = () => {
 
   const addToFavorites = (index: number) => {
     const music = songs[index];
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    const updatedFavorites = [...favorites, music];
+    setFavorites(updatedFavorites);
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    setAlert({ message: `"${music.title}" added to favorites!`, type: "success" });
+    setTimeout(() => setAlert(null), 3000); // Oculta la alerta después de 3s
+  };
 
-    if (!favorites.some((fav: Track) => fav.id === music.id)) {
-      favorites.push(music);
-      localStorage.setItem("favorites", JSON.stringify(favorites));
-      setAlert({ message: `"${music.title}" added to favorites!`, type: "success" });
-    } else {
-      setAlert({ message: `"${music.title}" is already in favorites!`, type: "warning" });
-    }
-
+  const removeFromFavorites = (index: number) => {
+    const music = songs[index];
+    const updatedFavorites = favorites.filter((fav) => fav.id !== music.id);
+    setFavorites(updatedFavorites);
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    setAlert({ message: `"${music.title}" removed from favorites!`, type: "success" });
     setTimeout(() => setAlert(null), 3000); // Oculta la alerta después de 3s
   };
 
@@ -70,6 +74,8 @@ const Search = () => {
         <CardList
           tracks={songs}
           addToFavorites={addToFavorites}
+          removeFromFavorites={removeFromFavorites}
+          isFavorite={(index) => favorites.some((fav) => fav.id === songs[index].id)} // Pasa si la canción está en favoritos
           showAlbum={(albumTitle) => console.log(`Showing album: ${albumTitle}`)}
           showArtist={(artistName) => console.log(`Showing artist: ${artistName}`)}
         />

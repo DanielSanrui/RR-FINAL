@@ -6,11 +6,21 @@ interface CardProps {
     track: Track;
     index: number;
     addToFavorites: (index: number) => void;
+    removeFromFavorites: (index: number) => void;
+    isFavorite: boolean; // Nuevo prop para saber si la canción está en favoritos
     showAlbum: (albumTitle: string) => void;
     showArtist: (artistName: string) => void;
 }
 
-const Card = ({ track, index, addToFavorites }: CardProps) => {
+const Card = ({ track, index, addToFavorites, removeFromFavorites, isFavorite }: CardProps) => {
+    const handleFavoriteClick = () => {
+        if (isFavorite) {
+            removeFromFavorites(index); // Elimina de favoritos
+        } else {
+            addToFavorites(index); // Añade a favoritos
+        }
+    };
+
     return (
         <div className="bg-zinc-900 p-4 rounded-lg shadow-md hover:bg-zinc-800 transition duration-200 flex flex-col items-center">
             <img
@@ -22,9 +32,9 @@ const Card = ({ track, index, addToFavorites }: CardProps) => {
             <div className="text-gray-400 text-sm truncate w-40 text-center">{track.artist.name}</div>
             <div className="flex gap-3 mt-3">
                 <Button
-                    text="Add to favorites"
-                    variant="favorites"
-                    onClick={() => addToFavorites(index)} // Solo llama a addToFavorites
+                    text={isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+                    variant={isFavorite ? "remove" : "add"} // Cambia el variant según si es favorito o no
+                    onClick={handleFavoriteClick}
                 />
             </div>
         </div>
