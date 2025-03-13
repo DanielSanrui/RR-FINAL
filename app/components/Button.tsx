@@ -9,10 +9,10 @@ interface ButtonProps {
 }
 
 const variants: Record<Variant, string> = {
-  album: "flex items-center gap-1 bg-green-400 text-green-400 hover:text-white transition duration-200",
-  artist: "flex items-center gap-1 bg-green-400 text-green-400 hover:text-white transition duration-200",
-  add: "flex items-center gap-1 bg-green-400 text-green-400 hover:text-white transition duration-200",
-  remove: "flex items-center gap-1 bg-red-400 text-red-400 hover:text-white transition duration-200",
+  album: "flex items-center gap-2 bg-green-500 text-white px-3 py-2 rounded-lg shadow-md hover:bg-green-600 transition duration-300",
+  artist: "flex items-center gap-2 bg-green-500 text-white px-3 py-2 rounded-lg shadow-md hover:bg-green-600 transition duration-300",
+  add: "flex items-center gap-2 bg-green-500 text-white px-3 py-2 rounded-lg shadow-md hover:bg-green-600 transition duration-300",
+  remove: "mt-3 bg-red-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-red-600 transition duration-300 w-full",
 };
 
 function Button({ text, variant, onClick }: ButtonProps) {

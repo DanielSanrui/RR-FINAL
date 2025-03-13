@@ -21,7 +21,7 @@ const CardList = ({ tracks, addToFavorites, removeFromFavorites, isFavorite, sho
           index={index}
           addToFavorites={addToFavorites}
           removeFromFavorites={removeFromFavorites}
-          isFavorite={isFavorite(index)} // Pasa si la canción está en favoritos
+          isFavorite={isFavorite(index)}
           showAlbum={showAlbum}
           showArtist={showArtist}
         />

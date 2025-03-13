@@ -1,6 +1,4 @@
-import SearchBar from "~/components/SearchBar";
 import { useState } from "react";
-import Search from "~/routes/search";
 import Footer from "~/components/Footer";
 import Header from "~/components/Header";
 import { Outlet } from "react-router";

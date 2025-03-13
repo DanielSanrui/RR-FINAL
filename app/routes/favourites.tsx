@@ -17,33 +17,41 @@ const Favourites = () => {
     };
 
     return (
-        <div className="p-6">
-            <h1 className="text-4xl font-bold mb-4 text-center">Favorites</h1>
+        <div className="p-6 min-h-screen text-white">
+            <h1 className="text-4xl font-bold mb-6 text-center text-green-400">🎵 Favorites </h1>
+
             {favorites.length === 0 ? (
-                <p>You do not have favourites yet</p>
+                <div className="text-center mt-10">
+                    <p className="text-lg text-gray-300">
+                        You haven't added any songs to your favorites yet. Start exploring and save your favorite tunes! 🎶
+                    </p>
+
+                </div>
             ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {favorites.map((music, index) => (
-                        <div key={music.id} className="bg-zinc-900 p-4 rounded-lg shadow-md">
+                        <div key={music.id} className="bg-zinc-800 p-5 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
                             <img
                                 src={music.album.cover_big}
                                 alt={`Cover of ${music.album.title}`}
-                                className="w-full rounded-md"
+                                className="w-full rounded-md shadow-md"
                             />
                             <h3 className="text-white text-lg font-semibold mt-3 truncate">{music.title}</h3>
                             <div className="text-gray-400 text-sm truncate">{music.artist.name}</div>
-                            <audio src={music.preview} controls className="w-full mt-3" />
+                            <audio src={music.preview} controls className="w-full mt-3 rounded-lg" />
                             <button
                                 onClick={() => removeFromFavorites(index)}
-                                className="mt-3 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200">
-                                Remove from Favorites
+                                className="mt-3 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200 w-full">
+                                ❌ Remove from favorites
                             </button>
                         </div>
                     ))}
                 </div>
             )}
-            <Link to="/" className="mt-6 inline-block bg-green-400 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition duration-200">
-                Back to Search
+            <Link
+                to="/"
+                className="mt-6 inline-block bg-green-500 text-white py-2 px-6 rounded-lg hover:bg-green-600 transition duration-200">
+                🔍 Discover Music
             </Link>
         </div>
     );

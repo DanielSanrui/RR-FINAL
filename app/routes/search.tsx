@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import type { Track } from "../types/interfaces";
 import { getSongsByName } from "../services/api";
 import CardList from "../components/CardList";
@@ -24,8 +24,15 @@ const Search = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState<string>("");
   const [songs, setSongs] = useState<Track[]>([]);
-  const [favorites, setFavorites] = useState<Track[]>(JSON.parse(localStorage.getItem("favorites") || "[]"));
+  const [favorites, setFavorites] = useState<Track[]>([]);
   const [alert, setAlert] = useState<{ message: string; type: "success" | "warning" } | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedFavorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+      setFavorites(storedFavorites);
+    }
+  }, []);
 
   const handleSearchSubmit = async () => {
     if (search.trim() === "") return;
@@ -44,22 +51,26 @@ const Search = () => {
     const music = songs[index];
     const updatedFavorites = [...favorites, music];
     setFavorites(updatedFavorites);
-    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    }
     setAlert({ message: `"${music.title}" added to favorites!`, type: "success" });
-    setTimeout(() => setAlert(null), 3000); // Oculta la alerta después de 3s
+    setTimeout(() => setAlert(null), 3000);
   };
 
   const removeFromFavorites = (index: number) => {
     const music = songs[index];
     const updatedFavorites = favorites.filter((fav) => fav.id !== music.id);
     setFavorites(updatedFavorites);
-    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    }
     setAlert({ message: `"${music.title}" removed from favorites!`, type: "success" });
-    setTimeout(() => setAlert(null), 3000); // Oculta la alerta después de 3s
+    setTimeout(() => setAlert(null), 3000);
   };
 
   return (
-    <div className="p-4">
+    <div className="min-h-screen p-4 bg-black flex flex-col items-center">
       <SearchBar
         placeholder="Search a song"
         onSearchChange={setSearch}
@@ -67,7 +78,7 @@ const Search = () => {
       />
 
       {isLoading ? (
-        <p className="text-gray-500 mt-4">Loading...</p>
+        <p className="text-gray-500 mt-4">No songs search.</p>
       ) : songs.length === 0 ? (
         <p className="text-gray-500 mt-4">No songs found.</p>
       ) : (
@@ -75,7 +86,7 @@ const Search = () => {
           tracks={songs}
           addToFavorites={addToFavorites}
           removeFromFavorites={removeFromFavorites}
-          isFavorite={(index) => favorites.some((fav) => fav.id === songs[index].id)} // Pasa si la canción está en favoritos
+          isFavorite={(index) => favorites.some((fav) => fav.id === songs[index].id)}
           showAlbum={(albumTitle) => console.log(`Showing album: ${albumTitle}`)}
           showArtist={(artistName) => console.log(`Showing artist: ${artistName}`)}
         />
